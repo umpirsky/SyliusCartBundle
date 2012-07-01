@@ -159,20 +159,17 @@ abstract class Cart implements CartInterface
      */
     public function addItem(ItemInterface $item)
     {
-        $exists = false;
         foreach ($this->items as $existingItem) {
             /** @var $existingItem ItemInterface */
             if ($existingItem->equals($item)) {
                 $existingItem->incrementQuantity($item->getQuantity());
-                $exists = true;
-                break;
+
+                return;
             }
         }
 
-        if (!$exists) {
-            $item->setCart($this);
-            $this->items[] = $item;
-        }
+        $item->setCart($this);
+        $this->items[] = $item;
     }
 
     /**
